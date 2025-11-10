@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Golden Tankard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cinzel', serif; 
+      margin: 0;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    
+    header {
+      position: relative;
+      width: 100%;
+      height: 250px; 
+      background: url('https://mir-s3-cdn-cf.behance.net/project_modules/hd/e6ca9e36738259.5727c4e790a74.gif') no-repeat center center;
+      background-size: cover; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      color: #C0C0C0;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3em;
+      font-weight: 700;
+      font-family: 'Cinzel', serif;
+      color: #C0C0C0;
+      display: inline-block;
+      transform-origin: top center; 
+      animation: sway 4s ease-in-out infinite, flicker 3s infinite alternate;
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(2deg); }
+      25% { transform: rotate(-2deg); }
+      50% { transform: rotate(1deg); }
+      75% { transform: rotate(-1deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { text-shadow: 1px 1px 2px #000, 0 0 5px #C0C0C0; color: #C0C0C0; }
+      50% { text-shadow: 1px 1px 4px #000, 0 0 10px #FFD700; color: #FFD700; }
+    }
+
+    nav {
+      background: linear-gradient(to bottom, #3b2415, #2a1a0d);
+      border-top: 2px solid #7a5c2e;
+      border-bottom: 2px solid #7a5c2e;
+      text-align: center;
+      padding: 6px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    nav a {
+      color: #D4AF37;
+      text-decoration: none;
+      padding: 8px 18px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: all 0.4s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      color: #FFE07A;
+      text-shadow: 0 0 6px #FFD700, 0 0 12px #FFA500;
+      transform: translateY(-2px);
+    }
+
+    main {
+      padding: 20px;
+      max-width: 1400px;
+      background-color: #8A3324; 
+      color: #D4AF37;
+      font-family: 'MedievalSharp', serif; 
+      text-align: center;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    section {
+      border: 3px solid #C9A23F;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 30px auto;
+      max-width: 1000px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      background: linear-gradient(145deg, #4B1E12, #5A2E1E, #4B1E12);
+      color: #F0E0B0;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+    }
+
+    section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+
+    section h2 {
+      border-bottom: 2px solid #D4AF37;
+      display: inline-block;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      color: #FFD27F;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    section p {
+      color: #FAE6C8;
+      font-size: 1.15em;
+    }
+
+    footer {
+      background-color: #3B2A17;
+      color: #c9a23f;
+      text-align: center;
+      padding: 10px 0;
+      text-shadow: 1px 1px 2px #000;
+      font-family: 'Cinzel', serif;
+      margin: 0; 
+    }
+
+    /* === Mystery Link Lock & Unlock === */
+    #mystery-link {
+      position: relative;
+      display: inline-block;
+      transition: all 0.5s ease-in-out;
+    }
+
+    #mystery-link.locked {
+      color: gray;
+      filter: grayscale(100%);
+      cursor: pointer;
+    }
+
+    #mystery-link.locked::after {
+      content: "⛓️";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(5deg);
+      font-size: 1.3em;
+      animation: swing 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: translate(-50%, -50%) rotate(5deg); }
+      50% { transform: translate(-50%, -50%) rotate(-5deg); }
+    }
+
+    #mystery-link.unlocking::after {
+      content: "💥";
+      font-size: 1.5em;
+      animation: breakChain 1s ease forwards;
+    }
+
+    @keyframes breakChain {
+      0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+      30% { transform: translate(-50%, -50%) scale(1.2) rotate(10deg); }
+      60% { transform: translate(-50%, -50%) scale(0.9) rotate(-10deg); opacity: 0.8; }
+      100% { transform: translate(-50%, -80%) scale(0) rotate(720deg); opacity: 0; }
+    }
+
+    #mystery-link.unlocked {
+      color: #FFD700;
+      filter: none;
+      animation: glowUnlock 2s ease-in-out infinite;
+    }
+
+    @keyframes glowUnlock {
+      0%, 100% {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFB300, 0 0 40px #FFA500;
+      }
+      50% {
+        text-shadow: 0 0 20px #FFF6C2, 0 0 40px #FFD700, 0 0 60px #FFB300;
+      }
+    }
+
+    /* === Medieval Popup === */
+        .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(145deg, #4B2E19, #6B3E22);
+  border: 4px solid #D4AF37;
+  border-radius: 15px;
+  padding: 25px 35px;
+  color: #F3E6C3;
+  font-family: 'Cinzel', serif;
+  text-shadow: 1px 1px 3px #000;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>The Golden Tankard</h1>
+  </header>
+
+  <nav>
+    <a href="home.html">Hearth</a>
+    <a href="about.html">Chronicles</a>
+    <a href="skills.html">Scrolls</a>
+    <a href="game.html">Alewright</a> 
+    <a href="contact.html">Whispers</a>
+    <a href="mystery.html" id="mystery-link" class="locked" onclick="checkMysteryAccess(event)">???</a>
+  </nav>
+
+  <main>
+    <section id="home">
+      <h2>The Hearth</h2>
+      <p>Lay down your sword and raise your mug, you’ve earned your rest.</p>
+    </section>
+
+    <section id="about">
+      <h2>The Chronicles</h2>
+      <p>By the hearth, my tale of hobbies, stories, and small victories.</p>
+    </section>
+
+    <section id="skills">
+      <h2>Scrolls Of Glory</h2>
+      <p>Crafts mastered through toil and wisdom, honed for quests and deeds of valor.</p>
+    </section>
+
+    <section id="contact">
+      <h2>The Innkeeper’s Ear</h2>
+      <p>Leave a word by candlelight, we’ll find you at dawn.</p>
+    </section>
+
+    <section id="game">
+      <h2>The Alewright’s Trial</h2>
+      <p>Step forth, brave soul, and face the trial of the tankard.</p>
+    </section>
+
+    <section id="mystery">
+      <h2>???</h2>
+      <p>You sense an aura that whispers of worlds unseen.</p>
+    </section>
+  </main>    
+
+  <footer>
+    &copy; 2025 The Golden Tankard — Rest, revel, and let tales flow like the ale.
+  </footer>
+
+ <script>
+  let mysteriousKeyCount = parseInt(localStorage.getItem('mysteriousKeyCount')) || 0;
+  const mysteryLink = document.getElementById('mystery-link');
+
+  function updateMysteryLink() {
+    if (mysteriousKeyCount >= 3) {
+      // Quietly unlock without showing popup or animation
+      mysteryLink.classList.remove('locked');
+      mysteryLink.classList.remove('unlocking');
+      mysteryLink.classList.add('unlocked');
+    } else {
+      mysteryLink.classList.add('locked');
+      mysteryLink.classList.remove('unlocked');
+    }
+  }
+  updateMysteryLink();
+
+  function checkMysteryAccess(event) {
+    if (mysteriousKeyCount < 3) {
+      event.preventDefault();
+      const needed = 3 - mysteriousKeyCount;
+      showPopup(`You need ${needed} more Mysterious Key${needed > 1 ? 's' : ''} to unlock this secret!`);
+    }
+  }
+
+  // Keep your medieval popup style
+  function showPopup(message) {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = message;
+    document.body.appendChild(popup);
+    requestAnimationFrame(() => popup.classList.add('show'));
+    setTimeout(() => popup.classList.remove('show'), 2500);
+    setTimeout(() => popup.remove(), 3000);
+  }
+
+  function addKey() {
+    mysteriousKeyCount++;
+    localStorage.setItem('mysteriousKeyCount', mysteriousKeyCount);
+    updateMysteryLink();
+  }
+</script>
+  </script>
+</body>
+</html>
+
+
