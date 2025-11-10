@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrolls of Glory | The Golden Tankard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #1A0F07; 
+      font-family: 'MedievalSharp', cursive;
+      color: #D2B48C; 
+    }
+
+    header {
+      background: url('https://i.pinimg.com/originals/dd/1f/1c/dd1f1c9b1f922280211e867c2b700eb4.gif') no-repeat center 60%;
+      background-size: cover;  
+      background-color: #2B1B0E;
+      height: 250px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #D4AF37;
+      text-shadow: 2px 2px 5px #000;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3em;
+      margin: 0;
+      animation: sway 4s ease-in-out infinite, flicker 3s infinite alternate;
+      transform-origin: top center;
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(2deg); }
+      25% { transform: rotate(-2deg); }
+      50% { transform: rotate(1deg); }
+      75% { transform: rotate(-1deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { text-shadow: 1px 1px 2px #000, 0 0 5px #D4AF37; color: #D4AF37; }
+      50% { text-shadow: 1px 1px 4px #000, 0 0 10px #FFD700; color: #FFD700; }
+    }
+
+    nav {
+      background: linear-gradient(to bottom, #3b2415, #2a1a0d);
+      border-top: 2px solid #7a5c2e;
+      border-bottom: 2px solid #7a5c2e;
+      text-align: center;
+      padding: 6px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    nav a {
+      color: #D4AF37;
+      text-decoration: none;
+      padding: 8px 18px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: all 0.4s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      color: #FFE07A;
+      text-shadow: 0 0 6px #FFD700, 0 0 12px #FFA500;
+      transform: translateY(-2px);
+    }
+
+    /* === Mystery link styling === */
+    #mystery-link.locked {
+      color: gray;
+      filter: grayscale(100%);
+      cursor: pointer;
+      position: relative;
+    }
+
+    #mystery-link.locked::after {
+      content: "⛓️";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(5deg);
+      font-size: 1.3em;
+      animation: swing 2s ease-in-out infinite;
+      pointer-events: none;
+      opacity: 0.8;
+      color: gray;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: translate(-50%, -50%) rotate(5deg); }
+      50% { transform: translate(-50%, -50%) rotate(-5deg); }
+    }
+
+    #mystery-link.unlocking::after {
+      content: "💥";
+      font-size: 1.5em;
+      animation: breakChain 1s ease forwards;
+    }
+
+    @keyframes breakChain {
+      0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+      30% { transform: translate(-50%, -50%) scale(1.2) rotate(10deg); }
+      60% { transform: translate(-50%, -50%) scale(0.9) rotate(-10deg); opacity: 0.8; }
+      100% { transform: translate(-50%, -80%) scale(0) rotate(720deg); opacity: 0; }
+    }
+
+    #mystery-link.unlocked {
+      color: #FFD700;
+      filter: none;
+      animation: glowUnlock 2s ease-in-out infinite;
+    }
+
+    @keyframes glowUnlock {
+      0%, 100% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFB300, 0 0 40px #FFA500; }
+      50% { text-shadow: 0 0 20px #FFF6C2, 0 0 40px #FFD700, 0 0 60px #FFB300; }
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #4B2E2A; 
+      border: 3px solid #B87333; 
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.7);
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      color: #B87333;
+      text-shadow: 1px 1px 2px #000;
+      margin-bottom: 20px;
+    }
+
+    p {
+      line-height: 1.6;
+      text-align: center;
+      font-size: 1.2em;
+      color: #D2B48C;
+      text-shadow: 1px 1px 1px #000;
+      margin-bottom: 20px;
+    }
+
+    .achievement-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .achievement-list li {
+      background-color: #3E1F15;
+      border-left: 5px solid #D2B48C;
+      padding: 15px 20px;
+      margin: 10px 0;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+      cursor: pointer; 
+    }
+
+    .achievement-list li:hover {
+      box-shadow: 0 0 15px #B87333;
+    }
+
+    .achievement-list li h3 {
+      margin: 0 0 5px 0;
+      color: #B87333;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .achievement-list li p {
+      margin: 0 0 10px 0;
+      color: #D2B48C;
+      font-family: 'MedievalSharp', cursive;
+    }
+
+    .progress-bar {
+      background-color: #2B1B0E;
+      border: 1px solid #B87333;
+      border-radius: 10px;
+      height: 20px;
+      overflow: hidden;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #FFD700, #B87333);
+      height: 100%;
+      width: 0%;
+      transition: width 1s ease;
+      border-radius: 10px 0 0 10px;
+    }
+
+    footer {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      background-color: #3B2A17;
+      color: #D2B48C;
+      padding: 10px 0;
+      text-shadow: 1px 1px 2px #000;
+      margin-top: 40px;
+    }
+
+    /* Medieval popup */
+       .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(145deg, #4B2E19, #6B3E22);
+  border: 4px solid #D4AF37;
+  border-radius: 15px;
+  padding: 25px 35px;
+  color: #F3E6C3;
+  font-family: 'Cinzel', serif;
+  text-shadow: 1px 1px 3px #000;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Scrolls of Glory</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Return to Tavern</a>
+    <a href="home.html">Hearth</a> 
+    <a href="about.html">Chronicles</a>
+    <a href="game.html">Alewright</a>
+    <a href="contact.html">Whispers</a>
+    <a href="mystery.html" id="mystery-link" class="locked" onclick="checkMysteryAccess(event)">???</a>
+  </nav>
+
+  <main>
+    <h2>Personal Skills & Achievements</h2>
+    <p>Behold the feats chronicled upon this aged parchment, deeds of skill, courage, and craft.</p>
+
+    <ul class="achievement-list">
+      <li>
+        <h3>Mastery of Swordplay</h3>
+        <p>Trained for over a decade, attaining proficiency in various medieval combat styles.</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </li>
+      <li>
+        <h3>Alchemy & Potion Craft</h3>
+        <p>Brewing elixirs and tinctures with precision, combining herbs and arcane knowledge.</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </li>
+      <li>
+        <h3>Scroll Writing & Calligraphy</h3>
+        <p>Beautifully inscribed manuscripts preserving tales, spells, and wisdom.</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </li>
+      <li>
+        <h3>Questing & Exploration</h3>
+        <p>Ventured into unknown lands, mapping routes and gathering lore from distant realms.</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </li>
+      <li>
+        <h3>Medieval Craftsmanship</h3>
+        <p>Forged armor, carved wood, and created artifacts of both beauty and utility.</p>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Golden Tankard — May your deeds be sung in the halls of heroes.</p>
+  </footer>
+
+  <div id="popup"></div>
+
+  <script>
+    // === Progress bars fill ===
+    document.querySelectorAll('.achievement-list li').forEach(item => {
+      item.addEventListener('click', () => {
+        const fill = item.querySelector('.progress-fill');
+        fill.style.width = '100%';
+      });
+    });
+
+  let mysteriousKeyCount = parseInt(localStorage.getItem('mysteriousKeyCount')) || 0;
+  const mysteryLink = document.getElementById('mystery-link');
+
+  function updateMysteryLink() {
+    if (mysteriousKeyCount >= 3) {
+      // Quietly unlock without showing popup or animation
+      mysteryLink.classList.remove('locked');
+      mysteryLink.classList.remove('unlocking');
+      mysteryLink.classList.add('unlocked');
+    } else {
+      mysteryLink.classList.add('locked');
+      mysteryLink.classList.remove('unlocked');
+    }
+  }
+  updateMysteryLink();
+
+  function checkMysteryAccess(event) {
+    if (mysteriousKeyCount < 3) {
+      event.preventDefault();
+      const needed = 3 - mysteriousKeyCount;
+      showPopup(`You need ${needed} more Mysterious Key${needed > 1 ? 's' : ''} to unlock this secret!`);
+    }
+  }
+
+  // Keep your medieval popup style
+  function showPopup(message) {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = message;
+    document.body.appendChild(popup);
+    requestAnimationFrame(() => popup.classList.add('show'));
+    setTimeout(() => popup.classList.remove('show'), 2500);
+    setTimeout(() => popup.remove(), 3000);
+  }
+
+  function addKey() {
+    mysteriousKeyCount++;
+    localStorage.setItem('mysteriousKeyCount', mysteriousKeyCount);
+    updateMysteryLink();
+  }
+</script>
+</body>
+</html>
+
+

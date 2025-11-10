@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Innkeeper’s Ear | The Golden Tankard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #2B1B0E;
+      color: #D4AF37;
+      font-family: 'MedievalSharp', cursive;
+    }
+
+    header {
+      position: relative;
+      width: 100%;
+      height: 250px; 
+      background: url('https://i.pinimg.com/originals/70/9a/bf/709abf01d17e599c6319d4ffe5100d4c.gif') 
+                  no-repeat center center;
+      background-size: cover; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      color: #C0C0C0;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3em;
+      margin: 0;
+      animation: sway 4s ease-in-out infinite, flicker 3s infinite alternate;
+      transform-origin: top center;
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(2deg); }
+      25% { transform: rotate(-2deg); }
+      50% { transform: rotate(1deg); }
+      75% { transform: rotate(-1deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { text-shadow: 1px 1px 2px #000, 0 0 5px #D4AF37; color: #D4AF37; }
+      50% { text-shadow: 1px 1px 4px #000, 0 0 10px #FFD700; color: #FFD700; }
+    }
+
+    nav {
+      background: linear-gradient(to bottom, #3b2415, #2a1a0d);
+      border-top: 2px solid #7a5c2e;
+      border-bottom: 2px solid #7a5c2e;
+      text-align: center;
+      padding: 6px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    nav a {
+      color: #D4AF37;
+      text-decoration: none;
+      padding: 8px 18px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: all 0.4s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      color: #FFE07A;
+      text-shadow: 0 0 6px #FFD700, 0 0 12px #FFA500;
+      transform: translateY(-2px);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #8A3324;
+      border: 4px double #D4AF37;
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.6);
+      padding: 30px;
+      text-align: center;
+      color: #F5DEB3;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      color: #FFD700;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    p {
+      font-size: 1.1em;
+      color: #F0E0B0;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: linear-gradient(145deg, #4B1E12, #5A2E1E);
+      border: 3px solid #C9A23F;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+      text-align: left;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      color: #FFD27F;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #C9A23F;
+      border-radius: 5px;
+      background-color: #3B2A17;
+      color: #F5DEB3;
+      font-family: 'MedievalSharp', cursive;
+      font-size: 1em;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.6);
+      box-sizing: border-box;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #FFD700;
+      box-shadow: 0 0 8px #FFD700;
+      background-color: #4B2A16;
+    }
+
+    textarea {
+      height: 120px;
+      resize: none;
+    }
+
+    button {
+      background-color: #3B2A17;
+      border: 2px solid #C9A23F;
+      color: #FFD27F;
+      padding: 10px 25px;
+      border-radius: 8px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+      margin: 20px auto 0;
+    }
+
+    button:hover {
+      color: #FFD700;
+      border-color: #FFD700;
+      box-shadow: 0 0 15px #FFD700;
+      transform: scale(1.05);
+    }
+
+    .contact-info {
+      margin-top: 40px;
+      background-color: rgba(59, 42, 23, 0.9);
+      border: 2px solid #C9A23F;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      font-family: 'Cinzel', serif;
+    }
+
+    .contact-info p {
+      margin: 8px 0;
+      color: #F5DEB3;
+    }
+
+    footer {
+      background-color: #3B2A17;
+      color: #c9a23f;
+      text-align: center;
+      padding: 10px 0;
+      text-shadow: 1px 1px 2px #000;
+      margin-top: 50px;
+      font-family: 'Cinzel', serif;
+    }
+
+    /* === Mystery link styling === */
+    #mystery-link {
+      position: relative;
+      cursor: pointer;
+    }
+
+    /* Locked state */
+    #mystery-link.locked {
+      color: gray;
+      filter: grayscale(100%);
+      transition: text-shadow 0.4s ease, color 0.3s ease; /* smooth hover glow */
+    }
+
+    #mystery-link.locked::after {
+      content: "⛓️";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(5deg);
+      font-size: 1.3em;
+      animation: swing 2s ease-in-out infinite;
+      pointer-events: none;
+      opacity: 0.8;
+      color: gray;
+    }
+
+    /* Gray glow on hover */
+    #mystery-link.locked:hover {
+      text-shadow: 0 0 6px #aaa, 0 0 12px #888, 0 0 18px #bbb;
+      color: gray;
+    }
+
+    /* Unlocked state */
+    #mystery-link.unlocked {
+      color: #FFD700;
+      filter: none;
+      text-shadow: 0 0 8px #FFD700, 0 0 15px #FFAA33, 0 0 25px #FF6600;
+      transition: none; /* hover glow instant */
+    }
+
+    #mystery-link.unlocked:hover {
+      text-shadow: 0 0 12px #FFD700, 0 0 25px #FFAA33, 0 0 35px #FF6600;
+    }
+
+    /* Chain swing animation */
+    @keyframes swing {
+      0%, 100% { transform: translate(-50%, -50%) rotate(5deg); }
+      50% { transform: translate(-50%, -50%) rotate(-5deg); }
+    }
+
+    /* Popup styles */
+        .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(145deg, #4B2E19, #6B3E22);
+  border: 4px solid #D4AF37;
+  border-radius: 15px;
+  padding: 25px 35px;
+  color: #F3E6C3;
+  font-family: 'Cinzel', serif;
+  text-shadow: 1px 1px 3px #000;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>The Innkeeper’s Ear</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Return to Tavern</a>
+    <a href="home.html">Hearth</a>
+    <a href="about.html">Chronicles</a>
+    <a href="skills.html">Scrolls</a>
+    <a href="game.html">Alewright</a>
+    <a href="mystery.html" id="mystery-link" class="locked">???</a>
+  </nav>
+
+  <main>
+    <h2>Whisper Your Message</h2>
+    <p>The fire crackles softly as you approach the counter. The innkeeper leans in, ready to hear your tale or request. Speak freely, traveler.</p>
+
+    <form>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" placeholder="Sir Alaric of the North...">
+
+      <label for="email">Raven’s Address (Email)</label>
+      <input type="email" id="email" name="email" placeholder="example@realm.com">
+
+      <label for="message">Your Message</label>
+      <textarea id="message" name="message" placeholder="Share your tale, request a song, or order another round..."></textarea>
+
+      <button type="submit">Send Your Scroll</button>
+    </form>
+
+    <div class="contact-info">
+      <h3>Other Ways to Reach the Innkeeper</h3>
+      <p>📜 Scroll Drop: 221 Mead Street, Oldhaven</p>
+      <p>📞 Tavern Bell: (800)-522-4700</p>
+      <p>🕯️ Candle Hours: Dusk till Dawn</p>
+      <p>🐦 Raven Post: <a href="mailto:innkeeper@goldentankard.com" style="color:#FFD700;">abdullah.ahmed@nycmc.me</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Golden Tankard — May your words find warm ears and swift replies.</p>
+  </footer>
+
+<script>
+  let mysteriousKeyCount = parseInt(localStorage.getItem('mysteriousKeyCount')) || 0;
+  const mysteryLink = document.getElementById('mystery-link');
+
+  // --- Apply the correct visual state immediately ---
+  function updateMysteryLink() {
+    if (mysteriousKeyCount >= 3) {
+      // Instantly show it as unlocked, no delay or animation
+      mysteryLink.classList.remove('locked', 'unlocking');
+      mysteryLink.classList.add('unlocked');
+    } else {
+      // Keep it gray and chained
+      mysteryLink.classList.add('locked');
+      mysteryLink.classList.remove('unlocked', 'unlocking');
+    }
+  }
+  updateMysteryLink();
+
+  // --- Medieval popup system ---
+  function showPopup(message) {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = message;
+    document.body.appendChild(popup);
+
+    // Trigger CSS transition
+    requestAnimationFrame(() => popup.classList.add('show'));
+
+    // Fade out and remove
+    setTimeout(() => popup.classList.remove('show'), 2500);
+    setTimeout(() => popup.remove(), 3000);
+  }
+
+  // --- Handle locked clicks ---
+  function checkMysteryAccess(event) {
+    if (mysteriousKeyCount < 3) {
+      event.preventDefault();
+      const needed = 3 - mysteriousKeyCount;
+      showPopup(`⛓️ The path remains sealed... You need ${needed} more Mysterious Key${needed > 1 ? 's' : ''}!`);
+    }
+  }
+
+  // --- Add event listener for locked link ---
+  mysteryLink.addEventListener('click', checkMysteryAccess);
+
+  // --- Developer helper (optional) ---
+  function addKey() {
+    mysteriousKeyCount++;
+    localStorage.setItem('mysteriousKeyCount', mysteriousKeyCount);
+    updateMysteryLink();
+  }
+</script>
+
+
+</body>
+</html>
+
+
+

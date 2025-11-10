@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Alewright's Trial</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    /* === Body & Layout === */
+    body {
+      font-family: 'Cinzel', serif;
+      margin: 0;
+      background-color: #2E1F0F;
+      color: #E3D9B0;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      background: url('https://mir-s3-cdn-cf.behance.net/project_modules/hd/e6ca9e36738259.5727c4e790a74.gif') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #FAD02E;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin: 0;
+      animation: sway 4s ease-in-out infinite, flicker 3s infinite alternate;
+      transform-origin: top center;
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(2deg); }
+      25% { transform: rotate(-2deg); }
+      50% { transform: rotate(1deg); }
+      75% { transform: rotate(-1deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { text-shadow: 1px 1px 2px #000, 0 0 5px #D4AF37; color: #D4AF37; }
+      50% { text-shadow: 1px 1px 4px #000, 0 0 10px #FFD700; color: #FFD700; }
+    }
+
+    /* === Navigation === */
+    nav {
+      background: linear-gradient(to bottom, #3b2415, #2a1a0d);
+      border-top: 2px solid #7a5c2e;
+      border-bottom: 2px solid #7a5c2e;
+      text-align: center;
+      padding: 6px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    nav a {
+      color: #D4AF37;
+      text-decoration: none;
+      padding: 8px 18px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: all 0.4s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      color: #FFE07A;
+      text-shadow: 0 0 6px #FFD700, 0 0 12px #FFA500;
+      transform: translateY(-2px);
+    }
+
+    /* === Locked / Mystery Link === */
+    #mystery-link.locked {
+      color: gray;
+      filter: grayscale(100%);
+      cursor: pointer;
+      position: relative;
+    }
+
+    #mystery-link.locked::after {
+      content: "⛓️";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(5deg);
+      font-size: 1.3em;
+      animation: swing 2s ease-in-out infinite;
+      pointer-events: none;
+      opacity: 0.8;
+      color: gray;
+    }
+
+    #mystery-link.locked:hover {
+      color: gray;
+      text-shadow: 0 0 6px #AAA, 0 0 12px #888, 0 0 20px #666;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: translate(-50%, -50%) rotate(5deg); }
+      50% { transform: translate(-50%, -50%) rotate(-5deg); }
+    }
+
+    #mystery-link.unlocked {
+      color: #FFD700;
+      filter: none;
+      animation: glowUnlock 2.5s ease-in-out infinite;
+    }
+
+    @keyframes glowUnlock {
+      0%,100% { text-shadow:0 0 10px #FFD700,0 0 25px #FFB300,0 0 40px #FFA500; }
+      50% { text-shadow:0 0 20px #FFF6C2,0 0 40px #FFD700,0 0 60px #FFB300; }
+    }
+
+    /* === Main Section === */
+    main {
+      padding: 20px;
+      max-width: 1400px;
+      margin: auto;
+      background-color: #3E2B20;
+      color: #F3E6C3;
+      font-family: 'MedievalSharp', serif;
+      text-align: center;
+      min-height: 80vh;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    section#game {
+      border: 3px solid #D4AF37;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      background: linear-gradient(145deg, #5C3A21, #704620, #5C3A21);
+      color: #F0E1B0;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      flex: 1;
+    }
+
+    section#game:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    }
+
+    .slot-machine {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0;
+      gap: 15px;
+    }
+
+    .reel {
+      width: 80px;
+      height: 80px;
+      background: #C19A6B;
+      border: 3px solid #FFD700;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      box-shadow: 0 0 12px rgba(0,0,0,0.7);
+    }
+
+    /* Spin button centered */
+    #spinButton {
+      display: block;
+      margin: 0 auto 20px auto;
+    }
+
+    button {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.2em;
+      padding: 10px 20px;
+      background-color: #6B2E26;
+      border: 3px solid #D4AF37;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #FFD700;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    button:hover {
+      background-color: #7D3C36;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #FFD700;
+    }
+
+    /* Lucky Potion GUI */
+    #lucky-potion-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid #D4AF37;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #5C3A21, #704620, #5C3A21);
+      box-shadow: 0 0 12px rgba(0,0,0,0.6);
+      min-width: 120px;
+      height: fit-content;
+      align-self: flex-start;
+    }
+
+    #lucky-potion-container label, #lucky-potion-container input {
+      display: block;
+      text-align: center;
+    }
+
+    #lucky-potion-container input[type="number"] {
+      width: 60px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      border: 2px solid #FFD700;
+      background-color: #3E2B20;
+      color: #FFD700;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+    }
+
+    #key-display, #potion-display {
+      font-size: 1.3em;
+      color: #FFD27F;
+      margin-top: 15px;
+      text-shadow: 1px 1px 3px #000;
+    }
+
+    #popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: linear-gradient(145deg, #4B2E19, #6B3E22);
+      border: 4px solid #D4AF37;
+      border-radius: 15px;
+      padding: 25px 35px;
+      color: #F3E6C3;
+      font-family: 'Cinzel', serif;
+      text-shadow: 1px 1px 3px #000;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      z-index: 9999;
+    }
+
+    #popup.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Developer menu popup */
+    #dev-menu {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: linear-gradient(145deg, #4B2E19, #6B3E22);
+      border: 4px solid #FFD700;
+      border-radius: 15px;
+      padding: 20px 30px;
+      color: #FFD27F;
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      text-shadow: 1px 1px 2px #000;
+      box-shadow: 0 0 30px #00BFFF;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 10000;
+    }
+
+    #dev-menu.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    #dev-menu input {
+      width: 60px;
+      padding: 4px 6px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: 2px solid #FFD700;
+      background-color: #3E2B20;
+      color: #FFD700;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #dev-menu button {
+      margin: 5px 0;
+    }
+
+    footer {
+      background-color: #4B2E19;
+      color: #D4AF37;
+      text-align: center;
+      padding: 10px 0;
+      text-shadow: 1px 1px 2px #000;
+    }
+.rare, .rare-spin {
+  color: #00FFFF; /* Cyan glow only for rares */
+  animation: rareGlow 2.5s ease-in-out infinite;
+  text-shadow: 0 0 5px #00FFFF, 0 0 10px #1E90FF, 0 0 15px #00FFFF;
+}
+
+.reel {
+  color: #F0E1B0; /* Normal gold */
+  text-shadow: none;
+}
+
+@keyframes rareGlow {
+  0%,100% { text-shadow: 0 0 5px #00FFFF, 0 0 10px #1E90FF, 0 0 15px #00FFFF; }
+  50%     { text-shadow: 0 0 15px #00FFFF, 0 0 25px #1E90FF, 0 0 35px #00FFFF; }
+}
+      @keyframes goldGreenPulse {
+    0%   { border-color: #D4AF37; box-shadow: 0 0 8px #D4AF37; }
+    50%  { border-color: #00FF66; box-shadow: 0 0 14px #00FF66; }
+    100% { border-color: #D4AF37; box-shadow: 0 0 8px #D4AF37; }
+  }
+
+  /* This class will be toggled dynamically */
+  #spinButton.lucky-active {
+    animation: goldGreenPulse 1.5s ease-in-out infinite;
+    border-width: 3px;
+  }
+
+  /* Smooth transition back to gold when deactivated */
+  #spinButton.transition-back {
+    transition: border-color 1s ease, box-shadow 1s ease;
+    border-color: #D4AF37 !important;
+    box-shadow: 0 0 8px #D4AF37 !important;
+  }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>The Alewright's Trial</h1>
+</header>
+
+<nav>
+  <a href="index.html">Return to Tavern</a>
+  <a href="home.html">Hearth</a>
+  <a href="about.html">Chronicles</a>
+  <a href="skills.html">Scrolls</a>
+  <a href="contact.html">Whispers</a>
+  <a href="mystery.html" id="mystery-link" class="locked">???</a>
+</nav>
+
+<div id="popup"></div>
+
+<main>
+  <section id="game">
+    <h2>The Alewright’s Trial</h2>
+    <p>Step forth, brave soul, and spin the tankard for your reward!</p>
+
+    <div class="slot-machine">
+      <div class="reel" id="reel1">🍺</div>
+      <div class="reel" id="reel2">⚔️</div>
+      <div class="reel" id="reel3">💎</div>
+    </div>
+
+    <!-- Spin button centered -->
+    <button id="spinButton" onclick="spinReels()">Spin the Tankard!</button>
+    <div id="reward"></div>
+    <div id="key-display"></div>
+    <div id="potion-display"></div>
+    <button onclick="resetKeys()">Reset Keys</button>
+  </section>
+
+  <!-- Lucky Potion GUI on the side -->
+  <div id="lucky-potion-container">
+    <label for="use-potions">Lucky Potions</label>
+    <input type="number" id="use-potions" min="0" value="0">
+    <button id="use-potion-btn" onclick="useLuckyPotion()">Use Potion(s)</button>
+  </div>
+</main>
+
+<!-- Developer Menu -->
+<div id="dev-menu">
+  <h3>Developer Menu</h3>
+  <input type="number" id="dev-keys" placeholder="Keys">
+  <button onclick="giveKeys()">Give Keys</button>
+  <br>
+  <input type="number" id="dev-potions" placeholder="Potions">
+  <button onclick="givePotions()">Give Potions</button>
+  <br>
+  <button onclick="document.getElementById('dev-menu').classList.remove('show')">Close</button>
+</div>
+
+<footer>
+  &copy; 2025 The Golden Tankard - Legends are poured, not found… may luck be with you.
+</footer>
+
+<script>
+let mysteriousKeyCount = parseInt(localStorage.getItem('mysteriousKeyCount')) || 0;
+let luckyPotionCount = parseInt(localStorage.getItem('luckyPotionCount')) || 0;
+let playerLuck = 0;
+let spinning = false;
+
+const keyDisplay = document.getElementById('key-display');
+const potionDisplay = document.getElementById('potion-display');
+const popup = document.getElementById('popup');
+const mysteryLink = document.getElementById('mystery-link');
+const usePotionBtn = document.getElementById('use-potion-btn');
+const spinButton = document.getElementById('spinButton');
+
+const rewards = [
+  {emoji:'🧪',name:'Magic Potion'},
+  {emoji:'⚔️',name:'Sword'},
+  {emoji:'💍',name:'Jewelry'},
+  {emoji:'🪙',name:'Gold'},
+  {emoji:'🗝️',name:'Mysterious Key',rare:true},
+  {emoji:'💎',name:'Crystal of Eternity',rare:true},
+  {emoji:'🛡️',name:'Knight’s Shield'},
+  {emoji:'🪓',name:'Battle Axe'},
+  {emoji:'🏹',name:'Elven Bow'},
+  {emoji:'🗡️',name:'Dagger of Shadows',rare:true},
+  {emoji:'🪄',name:'Wizard’s Wand'},
+  {emoji:'🍀',name:'Lucky Potion',rare:true}
+];
+
+function showPopup(msg){
+  popup.textContent=msg;
+  popup.classList.add('show');
+  setTimeout(()=>popup.classList.remove('show'),2200);
+}
+
+function updatePotionDisplay(){
+  potionDisplay.textContent=`Lucky Potions: ${luckyPotionCount}`;
+  localStorage.setItem('luckyPotionCount',luckyPotionCount);
+  usePotionBtn.classList.toggle('active', luckyPotionCount>0);
+}
+
+// === Updated checkKeyCount for game page ===
+function checkKeyCount() {
+  keyDisplay.textContent = `Mysterious Keys: ${mysteriousKeyCount}`;
+  const wasLocked = mysteryLink.classList.contains('locked');
+  const popupShown = localStorage.getItem('mysteryUnlockedShown') === 'true';
+
+  if (mysteriousKeyCount >= 3) {
+    mysteryLink.classList.remove('locked');
+    mysteryLink.classList.remove('unlocking');
+    mysteryLink.classList.add('unlocked');
+
+    // Only show explosion & popup ONCE
+    if (wasLocked && !popupShown) {
+      showPopup("✨ The path to mystery is now open!");
+      triggerExplosion();
+      localStorage.setItem('mysteryUnlockedShown', 'true');
+    }
+  } else {
+    mysteryLink.classList.add('locked');
+    mysteryLink.classList.remove('unlocked');
+    localStorage.removeItem('mysteryUnlockedShown'); // reset if user loses keys
+  }
+}
+
+
+function resetKeys(){
+  mysteriousKeyCount=0;
+  localStorage.setItem('mysteriousKeyCount',0);
+  checkKeyCount();
+  showPopup("🔑 Keys reset!");
+}
+
+// Lucky Potion use (updated)
+function useLuckyPotion(){
+  const amount = parseInt(document.getElementById('use-potions').value)||0;
+  if(amount<=0){ showPopup("⚗️ No potions selected."); return; }
+  if(luckyPotionCount<amount){ showPopup("🍀 Not enough Lucky Potions!"); return; }
+
+  playerLuck = 0.25 * amount;
+  showPopup(`🍀 Prepared ${amount} Lucky Potion${amount>1?'s':''}. Rare chance +${(playerLuck*100).toFixed(0)}%!`);
+
+  // === Activate pulse effect on spin button ===
+  spinButton.classList.add('lucky-active');
+  spinButton.classList.remove('transition-back');
+}
+
+// Spin reels (updated end)
+function spinReels(){
+  if(spinning) return;
+  spinning=true;
+    
+  const reels=[reel1,reel2,reel3];
+  const selected=[];
+  const rareChance = 0.15 + playerLuck;
+
+  function spinSingle(i){
+    return new Promise(res=>{
+      let pool = Math.random()<rareChance?rewards.filter(r=>r.rare):rewards.filter(r=>!r.rare);
+      let reward=pool[Math.floor(Math.random()*pool.length)];
+      selected.push(reward);
+
+      let count=20+i*5,cur=0;
+      const interval=setInterval(()=>{
+        reels[i].textContent=rewards[Math.floor(Math.random()*rewards.length)].emoji;
+        cur++; if(cur>count){ 
+          clearInterval(interval); 
+          reels[i].textContent=reward.emoji;
+          if(reward.rare){
+            reels[i].classList.add('rare-spin');
+          }
+          res(); 
+        }
+      },100);
+    });
+  }
+
+  spinSingle(0).then(()=>spinSingle(1)).then(()=>spinSingle(2)).then(()=>{
+    const rewardNames=selected.map(r=>r.rare?`<span class="rare">${r.name}</span>`:r.name).join(', ');
+    document.getElementById('reward').innerHTML=`You received: ${rewardNames}`;
+
+    selected.forEach(r=>{
+      if(r.name==='Mysterious Key'){ mysteriousKeyCount++; localStorage.setItem('mysteriousKeyCount',mysteriousKeyCount); }
+      if(r.name==='Lucky Potion'){ luckyPotionCount++; updatePotionDisplay(); showPopup("🍀 You found a Lucky Potion!"); }
+    });
+
+    // Subtract used potions
+    const usedPotions = parseInt(document.getElementById('use-potions').value)||0;
+    luckyPotionCount = Math.max(luckyPotionCount - usedPotions, 0);
+
+    // === Deactivate lucky pulse & smooth return ===
+    if(spinButton.classList.contains('lucky-active')){
+      spinButton.classList.remove('lucky-active');
+      spinButton.classList.add('transition-back');
+    }
+
+    playerLuck=0;
+    checkKeyCount();
+    updatePotionDisplay();
+
+    // Remove glow before next spin
+    reels.forEach(r => r.classList.remove('rare-spin'));
+
+    spinning=false;
+  });
+}
+
+// Mystery link click
+mysteryLink.addEventListener('click',e=>{
+  if(mysteryLink.classList.contains('locked')){ 
+    e.preventDefault(); 
+    showPopup("The path remains sealed..."); 
+  }
+});
+
+// Developer menu toggle
+document.addEventListener('keydown', e=>{
+  if(e.ctrlKey && e.key.toLowerCase()==='m'){ 
+    document.getElementById('dev-menu').classList.toggle('show'); 
+  }
+});
+
+// Developer menu functions
+function giveKeys(){
+  const amount=parseInt(document.getElementById('dev-keys').value)||0;
+  mysteriousKeyCount+=amount;
+  localStorage.setItem('mysteriousKeyCount',mysteriousKeyCount);
+  checkKeyCount();
+  showPopup(`🔑 Added ${amount} key(s)!`);
+}
+
+function givePotions(){
+  const amount=parseInt(document.getElementById('dev-potions').value)||0;
+  luckyPotionCount+=amount;
+  updatePotionDisplay();
+  showPopup(`🍀 Added ${amount} potion(s)!`);
+}
+
+function unlockMystery(){
+  mysteriousKeyCount = Math.max(mysteriousKeyCount,3);
+  checkKeyCount();
+  showPopup("??? instantly unlocked!");
+}
+
+// === Explosion animation for game page ===
+function triggerExplosion() {
+  const explosion = document.createElement('div');
+  explosion.classList.add('explosion');
+  document.body.appendChild(explosion);
+
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = 150 + Math.random() * 100;
+    p.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+    p.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+    explosion.appendChild(p);
+  }
+
+  setTimeout(() => explosion.remove(), 1000);
+}
+
+updatePotionDisplay();
+checkKeyCount();
+</script>
+
+
+</body>
+</html>
+
+
+
+

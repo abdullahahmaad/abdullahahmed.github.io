@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Hearth | The Golden Tankard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #2B1B0E; 
+      color: #D4AF37;
+      font-family: 'MedievalSharp', cursive;
+      animation: flicker-bg 5s infinite alternate;
+    }
+
+    @keyframes flicker-bg {
+      0% { background-color: #2B1B0E; }
+      50% { background-color: #3B2310; }
+      100% { background-color: #2B1B0E; }
+    }
+
+    header {
+      background: url('https://miro.medium.com/v2/resize%3Afit%3A2400/1%2ArE0TlfXbjJq0a2od4rE2aQ.gif') no-repeat center 40%;
+      background-size: cover;  
+      background-color: #2B1B0E;
+      height: 250px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #D4AF37;
+      text-shadow: 2px 2px 5px #000;
+      position: relative;
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3em;
+      margin: 0;
+      animation: sway 4s ease-in-out infinite, flicker 3s infinite alternate;
+      transform-origin: top center;
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(2deg); }
+      25% { transform: rotate(-2deg); }
+      50% { transform: rotate(1deg); }
+      75% { transform: rotate(-1deg); }
+      100% { transform: rotate(2deg); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { text-shadow: 1px 1px 2px #000, 0 0 5px #D4AF37; color: #D4AF37; }
+      50% { text-shadow: 1px 1px 4px #000, 0 0 10px #FFD700; color: #FFD700; }
+    }
+
+    nav {
+      background: linear-gradient(to bottom, #3b2415, #2a1a0d);
+      border-top: 2px solid #7a5c2e;
+      border-bottom: 2px solid #7a5c2e;
+      text-align: center;
+      padding: 6px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    }
+
+    nav a {
+      color: #D4AF37;
+      text-decoration: none;
+      padding: 8px 18px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 1.05em;
+      transition: all 0.4s ease;
+      position: relative;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      color: #FFE07A;
+      text-shadow: 0 0 6px #FFD700, 0 0 12px #FFA500;
+      transform: translateY(-2px);
+    }
+
+    /* Chain + lock styling */
+    #mystery-link.locked {
+      color: gray;
+      filter: grayscale(100%);
+      pointer-events: auto;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #mystery-link.locked::after {
+      content: "⛓️";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(5deg);
+      font-size: 1.3em;
+      animation: swing 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes swing {
+      0%, 100% { transform: translate(-50%, -50%) rotate(5deg); }
+      50% { transform: translate(-50%, -50%) rotate(-5deg); }
+    }
+
+    #mystery-link.unlocking::after {
+      content: "💥";
+      font-size: 1.5em;
+      animation: breakChain 1s ease forwards;
+    }
+
+    @keyframes breakChain {
+      0% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+      30% { transform: translate(-50%, -50%) scale(1.2) rotate(10deg); }
+      60% { transform: translate(-50%, -50%) scale(0.9) rotate(-10deg); opacity: 0.8; }
+      100% { transform: translate(-50%, -80%) scale(0) rotate(720deg); opacity: 0; }
+    }
+
+     #mystery-link.unlocked {
+      color: #FFD700;
+      filter: none;
+      animation: glowUnlock 2s ease-in-out infinite;
+    }
+
+    @keyframes glowUnlock {
+      0%, 100% { text-shadow: 0 0 10px #FFD700, 0 0 20px #FFB300, 0 0 40px #FFA500; }
+      50% { text-shadow: 0 0 20px #FFF6C2, 0 0 40px #FFD700, 0 0 60px #FFB300; }
+    }
+    #mystery-link.unlocked:hover {
+      text-shadow: 0 0 8px #FFD700, 0 0 15px #FFAA33, 0 0 30px #FF6600;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 40px auto;
+      background-color: #8A3324;
+      border: 3px solid #D4AF37;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      color: #FFD700;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    p {
+      line-height: 1.6;
+      text-align: center;
+      font-size: 1.2em;
+      color: #F5DEB3;
+      text-shadow: 1px 1px 2px #000;
+    }
+
+    .menu {
+      background-color: #F5DEB3;
+      border: 3px solid #8A3324;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+      color: #5C3A21;
+    }
+
+    .menu-item {
+      border-bottom: 1px dashed #8A3324;
+      padding: 10px 0;
+    }
+
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+
+    .menu-item h3 {
+      font-family: 'Cinzel', serif;
+      color: #8A3324;
+      text-shadow: 1px 1px 0 #D4AF37;
+      margin: 0 0 5px 0;
+    }
+
+    .menu-item p {
+      margin: 0;
+      font-family: 'MedievalSharp', cursive;
+      text-shadow: 1px 1px 0 #fff;
+      color: #3B1F0D;
+    }
+
+    .price {
+      float: right;
+      font-weight: bold;
+      color: #8A3324;
+    }
+
+    .hearth-fire {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .hearth-fire img {
+      width: 250px;
+      border: 3px solid #D4AF37;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #FF8C00;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .hearth-fire img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px #FFD700;
+    }
+
+    .tale-generator {
+      text-align: center;
+      background: #3B2A17;
+      border: 3px solid #D4AF37;
+      border-radius: 10px;
+      padding: 20px;
+      color: #F5DEB3;
+      margin-top: 30px;
+      font-family: 'MedievalSharp', cursive;
+    }
+
+    #taleButton {
+      background-color: #D4AF37;
+      color: #3B2A17;
+      border: none;
+      padding: 10px 20px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+
+    #taleButton:hover {
+      background-color: #FFD700;
+      box-shadow: 0 0 15px #FFD700;
+    }
+
+    #taleText {
+      margin-top: 15px;
+      font-size: 1.1em;
+      color: #F5DEB3;
+    }
+
+    /* Medieval popup */
+    .popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(145deg, #4B2E19, #6B3E22);
+  border: 4px solid #D4AF37;
+  border-radius: 15px;
+  padding: 25px 35px;
+  color: #F3E6C3;
+  font-family: 'Cinzel', serif;
+  text-shadow: 1px 1px 3px #000;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+
+    footer {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      background-color: #3B2A17;
+      color: #D4AF37;
+      padding: 10px 0;
+      text-shadow: 1px 1px 2px #000;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>The Hearth</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Return to Tavern</a>
+    <a href="about.html">Chronicles</a>
+    <a href="skills.html">Scrolls</a>
+    <a href="game.html">Alewright</a>
+    <a href="contact.html">Whispers</a>
+    <a href="mystery.html" id="mystery-link" class="locked">???</a>
+  </nav>
+
+  <div id="popup"></div>
+
+  <main>
+    <h2>Welcome to the Hearth</h2>
+    <p>Lay down your sword and raise your mug. The fire is warm, and the tales flow freely.</p>
+
+    <div class="hearth-fire">
+      <img src="https://i.pinimg.com/originals/23/7a/c5/237ac54cdea81df47af9a65f895ee6db.gif" id="fire" alt="Fire">
+      <audio id="fireSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_2e9a3d78b4.mp3"></audio>
+    </div>
+
+    <div class="tale-generator">
+      <button id="taleButton">Roll for a Tale 🍺</button>
+      <p id="taleText">Click to hear a story...</p>
+    </div>
+
+    <div class="menu">
+      <div class="menu-item"><h3>Dragon’s Ale</h3><p>A strong brew to warm even the coldest warrior. <span class="price">5g</span></p></div>
+      <div class="menu-item"><h3>Golden Tankard Stew</h3><p>Hearty stew made with root vegetables and tender meat. <span class="price">8g</span></p></div>
+      <div class="menu-item"><h3>Elven Honey Pie</h3><p>Sweet pastry made with forest honey and a hint of spice. <span class="price">4g</span></p></div>
+      <div class="menu-item"><h3>Spiced Mead</h3><p>A warm, honeyed drink with a touch of medieval magic. <span class="price">6g</span></p></div>
+    </div>
+
+    <p id="patronQuote"></p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 The Golden Tankard — Warm fires, full mugs, and fair tales await.</p>
+  </footer>
+<script>
+  // === Fire Sound Toggle ===
+  const fire = document.getElementById('fire');
+  const fireSound = document.getElementById('fireSound');
+  fire.addEventListener('click', () => fireSound.paused ? fireSound.play() : fireSound.pause());
+
+  // === Random Tales ===
+  const tales = [
+    "A bard once challenged a dragon to a duel of songs — the dragon lost, and now hums lullabies to its eggs.",
+    "They say the tankard above the hearth refills itself for the pure of heart.",
+    "A wandering knight left his sword here years ago… it still hums when danger nears.",
+    "The old innkeeper once brewed a mead so sweet, the elves sent him a thank-you tree.",
+    "In this very seat, a king once sat disguised as a traveler. He left a gold coin under the cushion."
+  ];
+  document.getElementById('taleButton').addEventListener('click', () => {
+    document.getElementById('taleText').textContent = tales[Math.floor(Math.random() * tales.length)];
+  });
+
+  // === Random Quotes ===
+  const quotes = [
+    "“Oi, barkeep! Another round, and keep the dragon out of my stew this time!”",
+    "“Careful with that stew — it bites back if you’re not looking.”",
+    "“The ale’s good tonight. Almost as good as the gossip.”",
+    "“You hear the lute? That’s the sound of stories yet untold.”",
+    "“Stay a while, traveler. The road can wait.”"
+  ];
+  document.getElementById('patronQuote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+  // === Mystery Link Logic ===
+  let mysteriousKeyCount = parseInt(localStorage.getItem('mysteriousKeyCount')) || 0;
+  const mysteryLink = document.getElementById('mystery-link');
+
+  // Instantly show correct visual (no gray delay)
+  if (mysteriousKeyCount >= 3) {
+    mysteryLink.classList.remove('locked', 'unlocking');
+    mysteryLink.classList.add('unlocked');
+  } else {
+    mysteryLink.classList.add('locked');
+    mysteryLink.classList.remove('unlocked', 'unlocking');
+  }
+
+  // --- Medieval popup ---
+  function showPopup(message) {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+    popup.textContent = message;
+    document.body.appendChild(popup);
+    requestAnimationFrame(() => popup.classList.add('show'));
+    setTimeout(() => popup.classList.remove('show'), 2500);
+    setTimeout(() => popup.remove(), 3000);
+  }
+
+  // --- Check access for locked links ---
+  function checkMysteryAccess(event) {
+    if (mysteriousKeyCount < 3) {
+      event.preventDefault();
+      const needed = 3 - mysteriousKeyCount;
+      showPopup(`⛓️ The path remains sealed... You need ${needed} more Mysterious Key${needed > 1 ? 's' : ''}!`);
+    }
+  }
+
+  mysteryLink.addEventListener('click', checkMysteryAccess);
+
+  // --- Helper function to add key (optional) ---
+  function addKey() {
+    mysteriousKeyCount++;
+    localStorage.setItem('mysteriousKeyCount', mysteriousKeyCount);
+    if (mysteriousKeyCount >= 3) {
+      mysteryLink.classList.remove('locked', 'unlocking');
+      mysteryLink.classList.add('unlocked');
+    }
+  }
+</script>
+
+</body>
+</html>
+
+
+
